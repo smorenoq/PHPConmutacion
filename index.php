@@ -58,17 +58,20 @@
 
     if ($_SESSION["dur1"] != $dur1 || $_SESSION["dur2"] != $dur2)
     {
-        //cambiarDuraciones($dur1, $dur2);
+        cambiarDuraciones($dur1, $dur2);
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['empezar']))
+    {
+        funcionamiento($dur1, $dur2);
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['cambiar']))
     {
-       //cambiarSemaforo();
+       cambiarSemaforo();
     }
 
     shell_exec("node apagar");
-    sleep(3);
-    //funcionamiento($dur1, $dur2);
 
     //Variables Globales
     $verde1prendido = True;
@@ -217,7 +220,7 @@
         }
 
         $interrumpir = False;
-        funcionamiento($d1, $d2);
+        //funcionamiento($d1, $d2);
     }
 
     function cambiarDuraciones($d1, $d2)
@@ -226,7 +229,7 @@
         
         $interrumpir = True;
         $interrumpir = False;
-        funcionamiento($d1, $d2);
+        //funcionamiento($d1, $d2);
     }
 		  
     function funcionamiento($d1, $d2)
@@ -234,7 +237,7 @@
         global $verde1prendido;
         global $verde2prendido;
 
-        while (!$interrumpir)
+        if (!$interrumpir)
 	{
             if ($verde1prendido)
 	    {
@@ -269,20 +272,22 @@
             }
         }
     }
-			  
-    function prender()
-    {
-      cambiarSemaforo();
-    }
-   
+			     
 
 
    ?>
-  <br><br>
+    <br><br>
 
-   <form action = "<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-     <input type="submit" value = "Cambiar Semáforo" name = "cambiar">
-   </form>
+    <form action = "<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+      <input type="submit" value = "Empezar" name = "empezar">
+    </form>
+
+    <br><br>
+			       
+
+    <form action = "<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+      <input type="submit" value = "Cambiar Semáforo" name = "cambiar">
+    </form>
    
   
   <body>
